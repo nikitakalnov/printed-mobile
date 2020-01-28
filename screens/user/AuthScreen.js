@@ -1,8 +1,16 @@
 import React from 'react';
-import {Text, ScrollView, Stylesheet, KeyboardAvoidingView} from 'react-native';
+import {Text, Button, ScrollView, Stylesheet, KeyboardAvoidingView, TextInput, View} from 'react-native';
 
 const AuthScreen = props => {
-  return ();
+  return (
+    <View>
+      <Text>Войдите в аккаунт:</Text>
+      <Button title="Go to the profile" onPress={() => {
+        props.navigation.navigate({routeName: 'Profile'});
+      }}/>
+    </View>
+    
+  );
 }
 
 export default AuthScreen;

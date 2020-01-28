@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import PrintedNavigator from './navigation/PrintedNavigator';
+
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
 
 import {createStore, combineReducers} from 'redux';
 import authReducer from './store/reducers/auth';
@@ -13,16 +17,23 @@ const rootReducer = combineReducers(
 
 const store = createStore(rootReducer);
 
+const fetchFonts = () => {
+  return Font.loadAsync({
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+  });
+}
+
 export default function App() {
-  const [output, setOutput] = useState('Hello, World!');
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  if(!fontLoaded) {
+    return <AppLoading startAsync={fetchFonts} onFinish={() => setFontLoaded(true)}/>
+  }
 
   return (
     <Provider store={store}>
-      <View style={styles.container}>
-        <Text>Моё приложение на React Native</Text>
-        <Text>{output}</Text>
-        <Button title="Change Text" onPress={() => setOutput('Привет, мир!')} />
-      </View>
+      <PrintedNavigator/>
     </Provider>
   );
 }
