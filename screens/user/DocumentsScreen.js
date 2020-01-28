@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const InworkOrdersScreen = props => {
+const DocumentsScreen = props => {
   return (
     <View style={styles.screen}>
-      <Text>Orders in work</Text>
+      <Text>Check all the uploaded documents</Text>
     </View>
   );
 }
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default InworkOrdersScreen;
+export default DocumentsScreen;
