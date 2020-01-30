@@ -8,8 +8,25 @@ import ProfileScreen from '../screens/user/ProfileScreen';
 
 const MainNavigator = createStackNavigator(
   {
-    Auth: AuthScreen,
-    Profile: ProfileScreen
+    Auth: {
+      screen: AuthScreen,
+      navigationOptions: { title: 'Аутентификация' }
+    },
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        title: 'Профиль'
+      }
+    }
+  },
+  {
+    initialRouteName: 'Auth',
+    defaultNavigationOptions: {
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: Colors.primary
+      }
+    }
   }
 );
 

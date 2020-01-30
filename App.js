@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { enableScreens } from 'react-native-screens';
+
 import PrintedNavigator from './navigation/PrintedNavigator';
 
 import * as Font from 'expo-font';
@@ -16,6 +18,8 @@ const rootReducer = combineReducers(
 );
 
 const store = createStore(rootReducer);
+
+enableScreens();
 
 const fetchFonts = () => {
   return Font.loadAsync({
