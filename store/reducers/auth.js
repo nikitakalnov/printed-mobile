@@ -1,14 +1,29 @@
+import { SIGN_IN, SIGN_UP, AUTHENTICATE, LOGOUT } from '../actions/auth';
+
 const initialState = {
   phoneNumber: null,
-  password: null,
   email: null,
-  isAuthenticated: false,
-  isAuthenticationSuccessful: false,
-  tokenExpirationDate: null
+  token: '',
+  userId: null,
+  userName: '',
+  tokenExpirationDate: null,
+  accountNumber: null
 };
 
 const authReducer = (state = initialState, action) => {
-  return state;
-}
+  switch(action.type) {
+    case LOGOUT: 
+      return initialState;
+    case AUTHENTICATE:
+      return {
+        ...state,
+        token: action.token,
+        userId: action.userId
+      };
+    case SIGN_UP:
+    default:
+      return state;
+  }
+};
 
 export default authReducer;
