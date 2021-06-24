@@ -1,6 +1,8 @@
 import React, { useReducer, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
+import * as CardValidator from 'card-validator';
+
 const INPUT_CHANGE = 'INPUT_CHANGE';
 const INPUT_BLUR = 'INPUT_BLUR';
 
@@ -25,7 +27,7 @@ const inputReducer = (state, action) => {
 const Input = props => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: props.initialValue ? props.initialValue : '',
-    isValid: props.initiallyValid,
+    isValid: props.initiallyValid ? props.initiallyValid : false,
     touched: false
   });
 
@@ -39,22 +41,27 @@ const Input = props => {
 
   const textChangeHandler = text => {
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const phoneNumberBasicRegex = /^\+7\d{10}$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+
     let isValid = true;
-    if (props.required && text.trim().length === 0) {
+    if (props.required && text.trim().length === 0)
       isValid = false;
-    }
-    if (props.email && !emailRegex.test(text.toLowerCase())) {
+    if (props.email && !emailRegex.test(text.toLowerCase()))
       isValid = false;
-    }
-    if (props.min != null && +text < props.min) {
+    if(props.phoneNumber && !phoneNumberBasicRegex.test(text.toLowerCase()))
       isValid = false;
-    }
-    if (props.max != null && +text > props.max) {
+    if(props.cardNumber && !CardValidator.number(text).isValid)
       isValid = false;
-    }
-    if (props.minLength != null && text.length < props.minLength) {
+    if(props.password && !passwordRegex.test(text))
       isValid = false;
-    }
+    if (props.min != null && +text < props.min)
+      isValid = false;
+    if (props.max != null && +text > props.max)
+      isValid = false;
+    if (props.minLength != null && text.length < props.minLength)
+      isValid = false;
+
     dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
   };
 
@@ -83,7 +90,8 @@ const Input = props => {
 
 const styles = StyleSheet.create({
   formControl: {
-    width: '100%'
+    width: '100%',
+    marginBottom: 8
   },
   label: {
     fontFamily: 'open-sans-bold',
